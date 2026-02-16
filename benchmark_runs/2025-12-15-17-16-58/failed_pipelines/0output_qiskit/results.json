@@ -1,0 +1,15 @@
+{
+    "reason": "",
+    "metrics_up_to_now": [
+        {
+            "module_info": {
+                "name": "output_qiskit",
+                "params": {}
+            },
+            "preprocess_time": 0.001471084076911211,
+            "postprocess_time": 3.2498501241207123e-06,
+            "additional_metrics": {},
+            "unique_name": "output_qiskit"
+        }
+    ]
+}

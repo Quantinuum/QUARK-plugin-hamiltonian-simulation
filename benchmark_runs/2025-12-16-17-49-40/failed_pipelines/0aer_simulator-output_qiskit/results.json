@@ -1,0 +1,25 @@
+{
+    "reason": "setting an array element with a sequence. The requested array has an inhomogeneous shape after 2 dimensions. The detected shape was (2, 11) + inhomogeneous part.",
+    "metrics_up_to_now": [
+        {
+            "module_info": {
+                "name": "aer_simulator",
+                "params": {}
+            },
+            "preprocess_time": 0.07273779204115272,
+            "postprocess_time": 4.20818105340004e-06,
+            "additional_metrics": {},
+            "unique_name": "aer_simulator"
+        },
+        {
+            "module_info": {
+                "name": "output_qiskit",
+                "params": {}
+            },
+            "preprocess_time": 0.013158082962036133,
+            "postprocess_time": 2.750195562839508e-06,
+            "additional_metrics": {},
+            "unique_name": "output_qiskit"
+        }
+    ]
+}

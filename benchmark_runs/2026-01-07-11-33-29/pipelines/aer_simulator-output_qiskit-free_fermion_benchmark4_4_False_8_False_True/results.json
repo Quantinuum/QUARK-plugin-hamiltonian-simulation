@@ -1,0 +1,49 @@
+{
+    "result": 7157859264.0,
+    "steps": [
+        {
+            "module_info": {
+                "name": "aer_simulator",
+                "params": {}
+            },
+            "preprocess_time": 11.295648915998754,
+            "postprocess_time": 3.875000402331352e-06,
+            "additional_metrics": {},
+            "unique_name": "aer_simulator"
+        },
+        {
+            "module_info": {
+                "name": "output_qiskit",
+                "params": {}
+            },
+            "preprocess_time": 0.011426332999690203,
+            "postprocess_time": 3.0420014809351414e-06,
+            "additional_metrics": {},
+            "unique_name": "output_qiskit"
+        },
+        {
+            "module_info": {
+                "name": "free_fermion_benchmark",
+                "params": {
+                    "lx": 4,
+                    "ly": 4,
+                    "periodic": false,
+                    "n_trot": 8,
+                    "two_spin_species": false,
+                    "create_plot": true
+                }
+            },
+            "preprocess_time": 0.0013522500012186356,
+            "postprocess_time": 14.512376499998936,
+            "additional_metrics": {
+                "application_score_value": 7157859264,
+                "application_score_value_gates": 7157859264,
+                "application_score_value_shots": 37280517,
+                "application_score_value_trotter_steps": 74561034,
+                "application_score_unit": "N_gates",
+                "application_score_type": "int"
+            },
+            "unique_name": "free_fermion_benchmark4_4_False_8_False_True"
+        }
+    ]
+}

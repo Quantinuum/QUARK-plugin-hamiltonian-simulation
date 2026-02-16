@@ -1,0 +1,25 @@
+{
+    "reason": "",
+    "metrics_up_to_now": [
+        {
+            "module_info": {
+                "name": "aer_simulator",
+                "params": {}
+            },
+            "preprocess_time": 0.04674183297902346,
+            "postprocess_time": 3.0421651899814606e-06,
+            "additional_metrics": {},
+            "unique_name": "aer_simulator"
+        },
+        {
+            "module_info": {
+                "name": "output_qiskit",
+                "params": {}
+            },
+            "preprocess_time": 0.010019042063504457,
+            "postprocess_time": 2.6659108698368073e-06,
+            "additional_metrics": {},
+            "unique_name": "output_qiskit"
+        }
+    ]
+}

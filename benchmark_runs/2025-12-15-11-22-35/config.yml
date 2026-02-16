@@ -1,0 +1,8 @@
+plugins: [
+    "quark_plugin_hamiltonian_simulation",
+    ]
+
+pipeline: [
+    "free_fermion_benchmark", # replace with your module name
+    # other modules
+]

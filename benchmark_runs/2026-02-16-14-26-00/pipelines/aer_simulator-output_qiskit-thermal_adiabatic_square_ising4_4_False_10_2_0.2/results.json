@@ -1,0 +1,50 @@
+{
+    "steps": [
+        {
+            "module_info": {
+                "name": "aer_simulator",
+                "params": {}
+            },
+            "preprocess_time": 1.6438062500674278,
+            "postprocess_time": 4.875008016824722e-06,
+            "additional_metrics": {},
+            "unique_name": "aer_simulator"
+        },
+        {
+            "module_info": {
+                "name": "output_qiskit",
+                "params": {}
+            },
+            "preprocess_time": 0.060520959086716175,
+            "postprocess_time": 3.458932042121887e-06,
+            "additional_metrics": {},
+            "unique_name": "output_qiskit"
+        },
+        {
+            "module_info": {
+                "name": "thermal_adiabatic_square_ising",
+                "params": {
+                    "lx": 4,
+                    "ly": 4,
+                    "periodic": false,
+                    "n_trot": 10,
+                    "h": 2,
+                    "dt": 0.2
+                }
+            },
+            "preprocess_time": 0.00023199990391731262,
+            "postprocess_time": 0.029993833042681217,
+            "additional_metrics": {
+                "application_score_energy": -2.184084277858826,
+                "application_score_energy_var": 0.05397126654632272,
+                "application_score_entropy": 2.402585101263083e-09,
+                "application_score_entropy_var": 0.0,
+                "application_score_temperature": 0.4207947674601541,
+                "application_score_temperature_var": 0.2121785691704558,
+                "application_score_free_energy": -2.1840842788698214,
+                "application_score_free_energy_var": 0.05397126654632272
+            },
+            "unique_name": "thermal_adiabatic_square_ising4_4_False_10_2_0.2"
+        }
+    ]
+}

@@ -1,0 +1,4 @@
+{
+    "reason": "coordinates() missing 3 required positional arguments: 'lx', 'ly', and 'periodic'",
+    "metrics_up_to_now": []
+}

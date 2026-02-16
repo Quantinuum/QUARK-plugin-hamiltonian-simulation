@@ -1,0 +1,8 @@
+plugins: [
+    "quark_plugin_hamiltonian_simulation",
+    ]
+
+pipeline: 
+    - "free_fermion_benchmark": {lx: 4, ly: 2, periodic: false, n_trot: 5, two_spin_species: false, create_plot: true}
+    - "output_qiskit"
+    - "aer_simulator"
