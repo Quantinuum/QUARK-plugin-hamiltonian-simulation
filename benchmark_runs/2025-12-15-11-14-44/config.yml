@@ -1,8 +1,0 @@
-plugins: [
-    "quark_plugin_hamiltonian_simulation",
-    ]
-
-pipeline: [
-    "example_module", # replace with your module name
-    # other modules
-]

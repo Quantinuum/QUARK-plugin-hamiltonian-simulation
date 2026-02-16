@@ -1,8 +1,0 @@
-plugins: [
-    "my_plugin",
-    ]
-
-pipeline: [
-    "example_module", # replace with your module name
-    # other modules
-]

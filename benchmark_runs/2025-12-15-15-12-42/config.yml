@@ -1,8 +1,0 @@
-plugins: [
-    "quark_plugin_hamiltonian_simulation",
-    ]
-
-pipeline: 
-    - "free_fermion_benchmark": {lx: 2}
-    - "output_qiskit"
-    # other modules
