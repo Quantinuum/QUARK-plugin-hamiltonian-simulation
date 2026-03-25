@@ -1,0 +1,8 @@
+plugins:
+    - "quark_plugin_hamiltonian_simulation"
+    - "quark_plugin_quantinuum"
+
+pipeline:
+    - "thermal_adiabatic_square_ising": {lx: 2, ly: 2, periodic: false, n_trot: 4, h: 2, dt: 0.2, }
+    - "to_backend_input": {circuit_type: "qiskit"}
+    - "aer_simulator"
