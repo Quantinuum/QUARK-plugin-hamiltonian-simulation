@@ -1,0 +1,8 @@
+plugins:
+    - "quark_plugin_hamiltonian_simulation"
+    - "quark_plugin_quantinuum"
+
+pipeline:
+    - "free_fermion_benchmark": {lx: 2, ly: 2, periodic: false, n_trot: 2, two_spin_species: false}
+    - "to_backend_input": {circuit_type: "qiskit"}
+    - "aer_simulator"

@@ -13,9 +13,12 @@
 # limitations under the License.
 from dataclasses import dataclass
 
+
 @dataclass
-class AbstractCircuit:
+class AbstractCircuits:
     """
-    Input required for a output module.
+    Input required for an output module.
     """
+
     circuits: list
+    benchmark_name: str
