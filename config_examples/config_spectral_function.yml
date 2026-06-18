@@ -1,0 +1,8 @@
+plugins:
+    - "quark_plugin_hamiltonian_simulation"
+    - "quark_plugin_quantinuum"
+    
+pipeline: 
+    - "spectral_function_benchmark": {l: 8, n_trot: 10, dt: 0.5, epsilon: 0.5, n_shots: 100, mode: 'log2N', create_plot: true}
+    - "to_backend_input": {circuit_type: "qiskit"}
+    - "aer_simulator"
