@@ -1,5 +1,5 @@
 import numpy as np
-from .square_lattice import createCouplingsSquare
+from .square_lattice import create_couplings_square
 
 
 def createScheduling(
@@ -36,7 +36,7 @@ def createCircuitSquareIsing(
     lx: int, ly: int, h: float, periodic: bool, n_trot: int, dt: float
 ) -> tuple[list, list]:
     """returns the list of all the circuits to run and the number of shots to perform"""
-    L = createCouplingsSquare(lx, ly, periodic)  # couplings of square lattice
+    L = create_couplings_square(lx, ly, periodic)  # couplings of square lattice
     V = L[0]
     E = L[1]
     T = createScheduling([1, 0], [h, 1], n_trot, dt)  # angles of gates

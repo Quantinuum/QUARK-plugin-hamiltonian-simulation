@@ -1,13 +1,10 @@
 from quark.core import Core, Result, Data
 from quark.interface_types import InterfaceType, Other
-
-import logging
-
-logger = logging.getLogger()
 from dataclasses import dataclass, field
 from typing import override, Dict
-
-from quark_plugin_quantinuum.interfaces.backend_result import BackendResult
+from quark_plugin_quantinuum.interfaces.backend_result import (  # type: ignore[import-untyped]
+    BackendResult,
+)
 from .thermal_adiabatic_helpers import createCircuitSquareIsing
 from .thermal_adiabatic_score import (
     extract_simulation_results_square_ising,
@@ -16,6 +13,9 @@ from .thermal_adiabatic_score import (
 from quark_plugin_hamiltonian_simulation.abstract_classes.abstract_circuit import (
     AbstractCircuits,
 )
+import logging
+
+logger = logging.getLogger()
 
 
 @dataclass

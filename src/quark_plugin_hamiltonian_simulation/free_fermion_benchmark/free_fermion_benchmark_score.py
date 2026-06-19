@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import numpy as np
+import numpy.typing as npt
 import logging
 from scipy.stats import chi2
 from scipy.optimize import fsolve
@@ -22,6 +23,9 @@ from .free_fermion_benchmark_helpers import droplet, coordinates
 from .free_fermion_benchmark_stabilizers import stabilizers_after_toric_code
 
 logger = logging.getLogger()
+
+FloatArray = npt.NDArray[np.float64]
+ComplexArray = npt.NDArray[np.complex128]
 
 
 class FreeFermionSolver:
@@ -47,9 +51,9 @@ class FreeFermionSolver:
                 self.sig *= 0
 
     def dc(
-        self, c: np.array, d: np.array
-    ):  # derivative of evolution of c=<c_i^\dagger c_j>
-        deriv: np.array = np.zeros((self.n, self.n)) * 1j
+        self, c: ComplexArray, d: ComplexArray
+    ) -> ComplexArray:  # derivative of evolution of c=<c_i^\dagger c_j>
+        deriv: ComplexArray = np.zeros((self.n, self.n), dtype=np.complex128)
         deriv[self.j, :] += 1j * (c[self.k, :] - self.s * d[self.k, :]) * self.sig
         deriv[self.k, :] += 1j * (c[self.j, :] + self.s * d[self.j, :]) * self.sig
         deriv[:, self.j] += (
@@ -61,9 +65,9 @@ class FreeFermionSolver:
         return deriv
 
     def dd(
-        self, c: np.array, d: np.array
-    ) -> np.array:  # derivative of evolution of D=<c_i c_j>
-        deriv: np.array = np.zeros((self.n, self.n)) * 1j
+        self, c: ComplexArray, d: ComplexArray
+    ) -> ComplexArray:  # derivative of evolution of D=<c_i c_j>
+        deriv: ComplexArray = np.zeros((self.n, self.n), dtype=np.complex128)
         deriv[self.j, :] += 1j * (-d[self.k, :] + self.s * c[self.k, :]) * self.sig
         deriv[self.k, :] += 1j * (-d[self.j, :] - self.s * c[self.j, :]) * self.sig
         deriv[:, self.j] += 1j * (-d[:, self.k] - self.s * c[self.k, :]) * self.sig
@@ -73,10 +77,10 @@ class FreeFermionSolver:
         return deriv
 
     def diff(
-        self, t: float, cvec: np.array
-    ):  # function to call for the differential equation
+        self, t: float, cvec: ComplexArray
+    ) -> ComplexArray:  # function to call for the differential equation
         """Function to pass to solve_ivp"""
-        call: np.array = cvec.reshape((2 * self.n, self.n))
+        call: ComplexArray = cvec.reshape((2 * self.n, self.n))
         return (
             np.concatenate(
                 (
@@ -89,13 +93,13 @@ class FreeFermionSolver:
 
 def exact_values_and_variance(
     n_trot: int, dt: float, lx: int, ly: int, periodic: bool, two_spin_species: bool
-):
+) -> FloatArray:
     """computes the exact output of the benchmark"""
-    l = lx * ly
-    n = 2 * l
+    l_tot = lx * ly
+    n = 2 * l_tot
     # index 0: number of steps; index 1: expectation value of imbalance; index
     # 2: expectation value of square of imbalance
-    res: np.array = np.zeros((n_trot + 1, 3))
+    res: FloatArray = np.zeros((n_trot + 1, 3))
 
     if periodic:
         if two_spin_species:
@@ -124,10 +128,10 @@ def exact_values_and_variance(
         boundary_hor = bb[1]
         spin_species = bb[2]
 
-        c: np.array = np.zeros((n, n)) * 1j
-        d: np.array = np.zeros((n, n)) * 1j
+        c: ComplexArray = np.zeros((n, n), dtype=np.complex128)
+        d: ComplexArray = np.zeros((n, n), dtype=np.complex128)
 
-        for j in range(l):  # initialize in the product state
+        for j in range(l_tot):  # initialize in the product state
             if j in initial:
                 c[j, j] = 1
 
@@ -135,7 +139,7 @@ def exact_values_and_variance(
         res[0, 2] += 1
 
         order = [[0, 0, 0, 1], [1, 0, 1, 1], [0, 0, 1, 0], [0, 1, 1, 1]]
-        f: list = [1 / l if j in initial else -1 / l for j in range(l)]
+        f: list = [1 / l_tot if j in initial else -1 / l_tot for j in range(l_tot)]
         for t in range(n_trot):  # loop over Trotter steps
             for decal in [
                 spin_species,
@@ -172,7 +176,7 @@ def exact_values_and_variance(
                                         boundary_vert,
                                         n,
                                     )
-                                    cc: np.array = (
+                                    cc: ComplexArray = (
                                         solve_ivp(
                                             solver.diff,
                                             [0, dt],
@@ -183,16 +187,28 @@ def exact_values_and_variance(
                                     )[:, -1].reshape((2 * n, n))
                                     c = cc[:n]
                                     d = cc[n:]
-            a: float = np.sum([f[j] * (1 - 2 * c[j, j]) for j in range(l)])
+            a: float = np.sum([f[j] * (1 - 2 * c[j, j]) for j in range(l_tot)])
             var: float = 4 * np.sum(
-                [f[i] * f[j] * c[i, i] * c[j, j] for i in range(l) for j in range(l)]
+                [
+                    f[i] * f[j] * c[i, i] * c[j, j]
+                    for i in range(l_tot)
+                    for j in range(l_tot)
+                ]
             )
             var += -4 * np.sum(
-                [f[i] * f[j] * c[i, j] * c[j, i] for i in range(l) for j in range(l)]
+                [
+                    f[i] * f[j] * c[i, j] * c[j, i]
+                    for i in range(l_tot)
+                    for j in range(l_tot)
+                ]
             )
-            var += 4 * np.sum([f[i] ** 2 * c[i, i] for i in range(l)])
+            var += 4 * np.sum([f[i] ** 2 * c[i, i] for i in range(l_tot)])
             var += 4 * np.sum(
-                [f[i] * f[j] * abs(d[i, j]) ** 2 for i in range(l) for j in range(l)]
+                [
+                    f[i] * f[j] * abs(d[i, j]) ** 2
+                    for i in range(l_tot)
+                    for j in range(l_tot)
+                ]
             )
             var += 2 * np.sum(f) * np.real(a)
             res[t + 1, 0] += t + 1
@@ -204,7 +220,7 @@ def exact_values_and_variance(
     return res
 
 
-def value_shot(s, l_tot, initial):
+def value_shot(s: str, l_tot: int, initial: list[int]) -> float:
     a: float = 0
     for j in range(l_tot):
         if j in initial:
@@ -227,7 +243,11 @@ def extract_simulation_results(
     counts_per_circuit: list[dict[str, int]],
     periodic: bool,
     two_spin_species: bool,
-) -> list[tuple[float, float, float]]:
+) -> tuple[
+    list[tuple[float, float, float]],
+    list[tuple[float, float, float]],
+    list[list[float]],
+]:
     """Returns the simulation results.
 
     For every time step returns the time, expectation value and standard deviation as a tuple for that step.
@@ -265,8 +285,8 @@ def extract_simulation_results(
         stabilizer_count = [dt * n] + [0] * (
             len(Safter) + 1
         )  # now computes the value of the stabilizers for each shot
-        res_post = 0
-        var_post = 0
+        res_post: float = 0
+        var_post: float = 0
         n_shots_post = 0
         for s in counts:
             wrong_stabi = 0
@@ -307,7 +327,7 @@ def extract_simulation_results(
 
 
 def computes_score_values(
-    delta: np.array, std_exp: np.array, std: np.array, l: int
+    delta: FloatArray, std_exp: FloatArray, std: FloatArray, l_tot: int
 ) -> tuple[int, int, int]:
     """Computes score values.
 
@@ -334,11 +354,11 @@ def computes_score_values(
     def ff(x):
         return chi2.cdf(delta_corrected[opt] ** 2 * x, df=n - 1) - 0.997
 
-    x: float = fsolve(ff, n / delta_corrected[opt] ** 2)[0]
+    x: float = float(fsolve(ff, n / delta_corrected[opt] ** 2)[0])
     # looks for x such that chi2.cdf(delta[opt]**2*x*L,df=1)=0.997
 
     return (
-        6 * int(np.floor(x) + 1) * (opt + 1) * l,
+        6 * int(np.floor(x) + 1) * (opt + 1) * l_tot,
         int(np.floor(x) + 1),
         int(np.floor(x) + 1) * (opt + 1),
     )

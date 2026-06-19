@@ -9,8 +9,12 @@ from quark.interface_types import InterfaceType, Other
 from quark_plugin_hamiltonian_simulation.abstract_classes.abstract_circuit import (
     AbstractCircuits,
 )
-from quark_plugin_quantinuum.interfaces.backend_input_pytket import BackendInputPytket
-from quark_plugin_quantinuum.interfaces.backend_input_qiskit import BackendInputQiskit
+from quark_plugin_quantinuum.interfaces.backend_input_pytket import (  # type: ignore[import-untyped]
+    BackendInputPytket,
+)
+from quark_plugin_quantinuum.interfaces.backend_input_qiskit import (  # type: ignore[import-untyped]
+    BackendInputQiskit,
+)
 from pytket.extensions.qiskit import qiskit_to_tk
 
 logger = logging.getLogger()

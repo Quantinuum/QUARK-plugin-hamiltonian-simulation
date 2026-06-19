@@ -192,7 +192,7 @@ def stabilizers_after_toric_code(
     S = stabilizers(
         lx, ly, periodic, two_spin_species
     )  # list of stabilizers before toric code state preparation
-    U = []
+    U: list[list[object]] = []
     if two_spin_species:
         shift = 2 * lx * ly
     else:
@@ -206,7 +206,7 @@ def stabilizers_after_toric_code(
 
     for s in S:
         safter = str(s)
-        coeff = 1
+        coeff = 1.0
         for g in U[::-1]:
             safter, multiplier = evolve(
                 safter, g

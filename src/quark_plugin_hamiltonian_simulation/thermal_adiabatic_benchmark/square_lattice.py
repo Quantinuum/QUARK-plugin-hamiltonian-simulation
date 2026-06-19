@@ -2,8 +2,8 @@ def coordinates(x, y, lx, ly):
     return (x % lx) + (y % ly) * lx
 
 
-def createCouplingsSquare(lx, ly, periodic):
-    l = lx * ly
+def create_couplings_square(lx, ly, periodic):
+    l_tot = lx * ly
     E = []
 
     for k in range(ly):
@@ -23,4 +23,4 @@ def createCouplingsSquare(lx, ly, periodic):
             if k + 1 < ly or periodic:
                 E.append([coordinates(j, k, lx, ly), coordinates(j, k + 1, lx, ly)])
 
-    return [[j for j in range(l)], E]
+    return [[j for j in range(l_tot)], E]
