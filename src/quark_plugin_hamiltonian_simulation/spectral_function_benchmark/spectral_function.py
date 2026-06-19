@@ -25,7 +25,7 @@ logger = logging.getLogger()
 
 @dataclass
 class SpectralFunction(Core):
-    l_tot: int = 8
+    l: int = 8  # noqa: E741
 
     dt: float = 0.5
     n_trot: int = 10
@@ -33,7 +33,7 @@ class SpectralFunction(Core):
 
     mode: str = "log2N"
 
-    create_plot: bool = True
+    create_plot: bool = False
 
     epsilon: float = np.pi * 0.8 / (n_trot * dt)
 
@@ -52,12 +52,12 @@ class SpectralFunction(Core):
 
         U_list = create_sequence_circuit(
             self.epsilon,
-            6 / (self.l_tot - 1),
-            self.l_tot,
+            6 / (self.l - 1),
+            self.l,
             self.dt,
             self.n_trot,
             self.mode,
-            self.l_tot,
+            self.l,
         )
 
         return Data(
@@ -66,7 +66,7 @@ class SpectralFunction(Core):
                     [
                         {
                             "circuit": U_list[n],
-                            "number_of_qubits": self.l_tot * 2,
+                            "number_of_qubits": self.l * 2,
                             "shot_proportions": 1,
                             "n_shots": self.n_shots,
                         }
@@ -82,21 +82,19 @@ class SpectralFunction(Core):
         backend_result = input_data.data
 
         counts_per_circuit = backend_result.counts
-        results = extract_simulation_results(self.l_tot, counts_per_circuit)
+        results = extract_simulation_results(self.l, counts_per_circuit)
 
         exact = exact_values(
-            self.l_tot,
+            self.l,
             self.dt,
             self.n_trot,
             self.epsilon,
-            6 / (self.l_tot - 1),
-            self.l_tot,
+            6 / (self.l - 1),
+            self.l,
         )
 
         fidelity, dispersion, dispersion_fidelity, dispersion_fidelity_exact = (
-            compute_score(
-                results[:, :, 0], exact, 6 / (self.l_tot - 1), self.l_tot, self.l_tot
-            )
+            compute_score(results[:, :, 0], exact, 6 / (self.l - 1), self.l, self.l)
         )
 
         logger.info(f"Benchmark score (global fidelity): {fidelity}")
@@ -115,14 +113,12 @@ class SpectralFunction(Core):
         )
 
         if self.create_plot:
-            # plt.figure()
-
             f, axarr = plt.subplots(1, 2)
 
             axarr[0].imshow(
                 results[:, :, 0],
-                aspect=self.l_tot / 6,
-                extent=[0, self.l_tot, -3, 3],
+                aspect=self.l / 6,
+                extent=[0, self.l, -3, 3],
                 origin="lower",
                 vmin=0,
                 vmax=1,
@@ -130,12 +126,12 @@ class SpectralFunction(Core):
             axarr[0].plot(dispersion[:, 0], dispersion[:, 1], color="red")
             axarr[0].set_title("results")
             axarr[0].set_xlabel("k")
-            axarr[0].set_ylabel("$\omega$")
+            axarr[0].set_ylabel("$\\omega$")
 
             im1 = axarr[1].imshow(
                 exact,
-                aspect=self.l_tot / 6,
-                extent=[0, self.l_tot, -3, 3],
+                aspect=self.l / 6,
+                extent=[0, self.l, -3, 3],
                 origin="lower",
                 vmin=0,
                 vmax=1,
@@ -161,4 +157,4 @@ class SpectralFunction(Core):
         return self.metrics
 
     def benchmark_tag(self) -> str:
-        return f"spectral_function_{self.l_tot}_{self.n_trot}_{self.dt}_{self.epsilon}_{self.mode}"
+        return f"spectral_function_{self.l}_{self.n_trot}_{self.dt}_{self.epsilon}_{self.mode}"
