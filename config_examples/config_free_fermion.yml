@@ -3,6 +3,6 @@ plugins:
     - "quark_plugin_quantinuum"
 
 pipeline:
-    - "free_fermion_benchmark": {lx: 4, ly: 4, periodic: false, n_trot: 4, two_spin_species: false, create_plot: true}
+    - "free_fermion_benchmark": {lx: 2, ly: 4, periodic: false, n_trot: 4, two_spin_species: false, create_plot: true}
     - "to_backend_input": {circuit_type: "qiskit"}
     - "aer_simulator"

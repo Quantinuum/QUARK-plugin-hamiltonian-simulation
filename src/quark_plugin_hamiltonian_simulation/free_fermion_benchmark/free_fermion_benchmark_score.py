@@ -188,35 +188,18 @@ def exact_values_and_variance(
                                     c = cc[:n]
                                     d = cc[n:]
             a: float = np.sum([f[j] * (1 - 2 * c[j, j]) for j in range(l_tot)])
-            var: float = 4 * np.sum(
-                [
-                    f[i] * f[j] * c[i, i] * c[j, j]
-                    for i in range(l_tot)
-                    for j in range(l_tot)
-                ]
-            )
-            var += -4 * np.sum(
-                [
-                    f[i] * f[j] * c[i, j] * c[j, i]
-                    for i in range(l_tot)
-                    for j in range(l_tot)
-                ]
-            )
+            var: float = 4 * np.sum([f[i] * f[j] * c[i, i] * c[j, j] for i in range(l_tot) for j in range(l_tot)])
+            var += -4 * np.sum([f[i] * f[j] * c[i, j] * c[j, i] for i in range(l_tot) for j in range(l_tot)])
             var += 4 * np.sum([f[i] ** 2 * c[i, i] for i in range(l_tot)])
-            var += 4 * np.sum(
-                [
-                    f[i] * f[j] * abs(d[i, j]) ** 2
-                    for i in range(l_tot)
-                    for j in range(l_tot)
-                ]
-            )
-            var += 2 * np.sum(f) * np.real(a)
+            var += 4 * np.sum([f[i] * f[j] * abs(d[i, j]) ** 2 for i in range(l_tot) for j in range(l_tot)])
+            var += -4*np.sum(f)*np.sum([f[i] * c[i, i] for i in range(l_tot)])
+            var += np.sum(f)**2
             res[t + 1, 0] += t + 1
             res[t + 1, 1] += np.real(a)
-            res[t + 1, 2] += np.real(var) - np.real(a) ** 2
+            res[t + 1, 2] += np.real(var)
 
     res = res / len(boundary_list)
-    res[:, 2] = np.sqrt(res[:, 2])  # standard deviation per shot
+    res[:, 2] = np.sqrt(res[:, 2]-res[:, 1]**2)  # standard deviation per shot
     return res
 
 
@@ -346,7 +329,7 @@ def computes_score_values(
     rewards: float = float(delta_corrected[0]) ** 2
     opt: int = 0
     for j in range(1, n):  # looks for the time point opt with maximal reward
-        temp: float = float(delta_corrected[j]) ** 2 / (j + 1)
+        temp: float = float(delta_corrected[j]) ** 2 / j
         if temp > rewards:
             rewards = temp
             opt = j
@@ -358,9 +341,9 @@ def computes_score_values(
     # looks for x such that chi2.cdf(delta[opt]**2*x*L,df=1)=0.997
 
     return (
-        6 * int(np.floor(x) + 1) * (opt + 1) * l_tot,
+        6 * int(np.floor(x) + 1) * (opt) * l_tot,
         int(np.floor(x) + 1),
-        int(np.floor(x) + 1) * (opt + 1),
+        int(np.floor(x) + 1) * (opt),
     )
 
 
