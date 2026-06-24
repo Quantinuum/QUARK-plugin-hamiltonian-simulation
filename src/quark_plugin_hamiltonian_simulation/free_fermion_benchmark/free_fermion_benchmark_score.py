@@ -188,18 +188,36 @@ def exact_values_and_variance(
                                     c = cc[:n]
                                     d = cc[n:]
             a: float = np.sum([f[j] * (1 - 2 * c[j, j]) for j in range(l_tot)])
-            var: float = 4 * np.sum([f[i] * f[j] * c[i, i] * c[j, j] for i in range(l_tot) for j in range(l_tot)])
-            var += -4 * np.sum([f[i] * f[j] * c[i, j] * c[j, i] for i in range(l_tot) for j in range(l_tot)])
+            var: float = 4 * np.sum(
+                [
+                    f[i] * f[j] * c[i, i] * c[j, j]
+                    for i in range(l_tot)
+                    for j in range(l_tot)
+                ]
+            )
+            var += -4 * np.sum(
+                [
+                    f[i] * f[j] * c[i, j] * c[j, i]
+                    for i in range(l_tot)
+                    for j in range(l_tot)
+                ]
+            )
             var += 4 * np.sum([f[i] ** 2 * c[i, i] for i in range(l_tot)])
-            var += 4 * np.sum([f[i] * f[j] * abs(d[i, j]) ** 2 for i in range(l_tot) for j in range(l_tot)])
-            var += -4*np.sum(f)*np.sum([f[i] * c[i, i] for i in range(l_tot)])
-            var += np.sum(f)**2
+            var += 4 * np.sum(
+                [
+                    f[i] * f[j] * abs(d[i, j]) ** 2
+                    for i in range(l_tot)
+                    for j in range(l_tot)
+                ]
+            )
+            var += -4 * np.sum(f) * np.sum([f[i] * c[i, i] for i in range(l_tot)])
+            var += np.sum(f) ** 2
             res[t + 1, 0] += t + 1
             res[t + 1, 1] += np.real(a)
             res[t + 1, 2] += np.real(var)
 
     res = res / len(boundary_list)
-    res[:, 2] = np.sqrt(res[:, 2]-res[:, 1]**2)  # standard deviation per shot
+    res[:, 2] = np.sqrt(res[:, 2] - res[:, 1] ** 2)  # standard deviation per shot
     return res
 
 
