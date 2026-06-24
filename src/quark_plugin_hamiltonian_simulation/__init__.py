@@ -22,10 +22,14 @@ from quark_plugin_hamiltonian_simulation.output_qiskit.to_backend_input import (
 from quark_plugin_hamiltonian_simulation.thermal_adiabatic_benchmark.thermal_adiabatic_square_ising import (
     ThermalAdiabaticSquareIsing,
 )
+from quark_plugin_hamiltonian_simulation.spectral_function_benchmark.spectral_function import (
+    SpectralFunction,
+)
 
 quark_modules = [
     ("free_fermion_benchmark", FreeFermionBenchmark),
     ("thermal_adiabatic_square_ising", ThermalAdiabaticSquareIsing),
+    ("spectral_function_benchmark", SpectralFunction),
     ("to_backend_input", ToBackendInput),
 ]
 

@@ -341,7 +341,7 @@ def create_circuit(
 ) -> list:
     """returns an abstract circuit in the form of a list of operations"""
     logger.info(f"Creating simulation circuit for {n_trot} Trotter steps")
-    u = []
+    u: list[list[object]] = []
 
     if two_spin_species:
         shift_ancilla = 2 * lx * ly

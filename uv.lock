@@ -2547,6 +2547,7 @@ name = "quark-plugin-hamiltonian-simulation"
 source = { editable = "." }
 dependencies = [
     { name = "matplotlib" },
+    { name = "numpy" },
     { name = "pytket-qiskit" },
     { name = "qiskit" },
     { name = "quark-framework" },
@@ -2565,10 +2566,11 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "matplotlib", specifier = ">=3.9.3" },
+    { name = "numpy", specifier = ">=2.3.5" },
     { name = "pytket-qiskit", specifier = ">=0.77.0" },
     { name = "qiskit", specifier = ">=2.0.3" },
     { name = "quark-framework", specifier = ">=0.4.4" },
-    { name = "quark-plugin-quantinuum", specifier = ">=0.0.1" },
+    { name = "quark-plugin-quantinuum", specifier = ">=0.0.2" },
     { name = "scipy", specifier = ">=1.16.3" },
 ]
 
@@ -2582,7 +2584,7 @@ dev = [
 
 [[package]]
 name = "quark-plugin-quantinuum"
-version = "0.0.1"
+version = "0.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "matplotlib" },
@@ -2595,9 +2597,9 @@ dependencies = [
     { name = "quark-framework" },
     { name = "scipy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/54/c0/17529e03e604fe88382798b331a43b9e357a44079629c715e066e7fcecc5/quark_plugin_quantinuum-0.0.1.tar.gz", hash = "sha256:322e4e070692a3328ddd9fb750e9327787ca8897bc61e5b4243f1022b3520c2f", size = 164109, upload-time = "2026-03-25T17:40:48.949Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/11/b6/4abb4a0622369f83114f2bdfacc5843658f783da3f0e6e722c9725d37c35/quark_plugin_quantinuum-0.0.2.tar.gz", hash = "sha256:fce5fb5a4d3fba210d8436f5c74814df8e30d8d7eabbfe9bede6d54ce67647ab", size = 167669, upload-time = "2026-06-24T16:11:00.679Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4a/2d/9b1618914102ed06eafb5ca5a32174f7c044900e24a862dc1ed3df5b6676/quark_plugin_quantinuum-0.0.1-py3-none-any.whl", hash = "sha256:c7598824e3e98c3bbb2b8aa0bea5187612595de3cb98e5537b8a64e717784d36", size = 30159, upload-time = "2026-03-25T17:40:47.681Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/23/fb59feec4455baaef9b4776197fe42080ebd30ad9290d3e6a2bb7942ecf8/quark_plugin_quantinuum-0.0.2-py3-none-any.whl", hash = "sha256:e7244bef8ee54df72ef06638d317b35d4b0f75e29532608f1703672363d67643", size = 32291, upload-time = "2026-06-24T16:10:59.623Z" },
 ]
 
 [[package]]

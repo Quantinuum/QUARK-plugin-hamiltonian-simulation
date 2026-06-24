@@ -14,14 +14,17 @@ from .free_fermion_benchmark_score import (
 import numpy as np
 import logging
 
-logger = logging.getLogger()
 from dataclasses import field
 from typing import Dict
 
-from quark_plugin_quantinuum.interfaces.backend_result import BackendResult
+from quark_plugin_quantinuum.interfaces.backend_result import (  # type: ignore[import-untyped]
+    BackendResult,
+)
 from quark_plugin_hamiltonian_simulation.abstract_classes.abstract_circuit import (
     AbstractCircuits,
 )
+
+logger = logging.getLogger()
 
 
 @dataclass
@@ -34,7 +37,7 @@ class FreeFermionBenchmark(Core):
     n_trot: int = 2
     n_shots: int = 200
     dt: float = 0.5
-    metrics: Dict[str, float | int] = field(init=False, default_factory=dict)
+    metrics: Dict[str, str | float | int] = field(init=False, default_factory=dict)
 
     @override
     def preprocess(self, data: InterfaceType) -> Result:

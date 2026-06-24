@@ -1,16 +1,16 @@
 import numpy as np
-from .square_lattice import createCouplingsSquare
+from .square_lattice import create_couplings_square
 
 
 def extract_simulation_results_square_ising(
     lx: int, ly: int, periodic: bool, h: float, counts_per_circuit: list[dict[str, int]]
-) -> list:
+) -> list[float]:
     """computes expectation value of energy or X for all circuits"""
-    L = createCouplingsSquare(lx, ly, periodic)
+    L = create_couplings_square(lx, ly, periodic)
     V = L[0]
     E = L[1]
 
-    def meanZ(counts):
+    def meanZ(counts: dict[str, int]) -> tuple[float, float]:
         res: float = 0
         var: float = 0
         n_shots = np.sum(list(counts.values()))
@@ -27,7 +27,7 @@ def extract_simulation_results_square_ising(
         var = np.sqrt(var / n_shots - res**2) / np.sqrt(n_shots - 1)
         return res, var
 
-    def meanZZ(counts):
+    def meanZZ(counts: dict[str, int]) -> tuple[float, float]:
         res: float = 0
         var: float = 0
         n_shots = np.sum(list(counts.values()))
@@ -89,7 +89,9 @@ def extract_simulation_results_square_ising(
     ]
 
 
-def thermodynamics(results: list) -> tuple:
+def thermodynamics(
+    results: list[float],
+) -> tuple[float, float, float, float, float, float, float, float]:
     energy = results[0]
     var_energy = results[1]
 
@@ -97,12 +99,12 @@ def thermodynamics(results: list) -> tuple:
     entropy = -x * np.log(x) - (1 - x) * np.log(1 - x)  # entropy function
     var_entropy = np.log((1 - x) / x) * results[5] / 2  # variance of entropy measured
 
-    def f(e, ep, m, mp):
+    def f(e: float, ep: float, m: float, mp: float) -> float:
         return (
             2 * (e - ep) / (m - mp) / np.log((1 - m) / (1 + m))
         )  # function computing the temperature
 
-    values = []
+    values: list[float] = []
     for n in range(10000):
         xi1 = np.random.normal()
         xi2 = np.random.normal()
@@ -116,21 +118,23 @@ def thermodynamics(results: list) -> tuple:
         )
         values.append(max(value, 0))
 
-    temperature = np.mean(values)
-    var_temperature = np.sqrt(np.var(values))
+    temperature = float(np.mean(values))
+    var_temperature = float(np.sqrt(np.var(values)))
 
-    free_energy = energy - temperature * entropy  # free energy of the system
-    var_free_energy = np.sqrt(
-        var_energy**2
-        + temperature**2 * var_entropy**2
-        + var_temperature**2 * entropy**2
+    free_energy = float(energy - temperature * entropy)  # free energy of the system
+    var_free_energy = float(
+        np.sqrt(
+            var_energy**2
+            + temperature**2 * var_entropy**2
+            + var_temperature**2 * entropy**2
+        )
     )
 
     return (
         energy,
         var_energy,
-        entropy,
-        var_entropy,
+        float(entropy),
+        float(var_entropy),
         temperature,
         var_temperature,
         free_energy,

@@ -26,11 +26,12 @@ classifiers = [
 license = "Apache-2.0"
 dependencies = [
     "quark-framework>=0.4.4",
-    "quark-plugin-quantinuum>=0.0.1",
+    "quark-plugin-quantinuum>=0.0.2",
     "scipy>=1.16.3",
     "qiskit>=2.0.3",
     "matplotlib>=3.9.3",
     "pytket-qiskit>=0.77.0",
+    "numpy>=2.3.5",
 ]
 [dependency-groups]
 dev = [
